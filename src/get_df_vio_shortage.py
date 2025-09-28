@@ -135,3 +135,33 @@ for i, col in enumerate(metrics):
 
 plt.tight_layout()
 plt.show()
+
+#%%
+import matplotlib.pyplot as plt
+import numpy as np
+
+# List of metrics to compare
+metrics = ["KGE_G(789)", "Reliability", "Resiliency", "Vulnerability"]
+
+# Create a figure with 4 subplots (2x2)
+fig, axes = plt.subplots(2, 2, figsize=(5, 4))
+
+for i, col in enumerate(metrics):
+    ax = axes[i // 2, i % 2]
+
+    # Normalize counts to 0–1 for each dataset
+    weights_ens = np.ones_like(df_vio_ensemble[col]) / len(df_vio_ensemble[col])
+    weights_whole = np.ones_like(df_vio_whole[col]) / len(df_vio_whole[col])
+
+    ax.hist(df_vio_ensemble[col], alpha=0.6, bins=15, label="Component-wise", weights=weights_ens)
+    ax.hist(df_vio_whole[col], alpha=0.6, bins=15, label="Whole-system", weights=weights_whole)
+    if col == "KGE_G(789)":
+        col = "KGE Summer Flow"
+    ax.set_title(col)
+    ax.set_ylim(0, 0.3)   # y-axis normalized to 0–1
+    if i == 0:
+        ax.legend(fontsize=8)
+
+plt.tight_layout()
+plt.show()
+
