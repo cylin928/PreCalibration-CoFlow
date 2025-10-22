@@ -1574,10 +1574,15 @@ def resiliency(x, threshold, failure_operator="<", cap=float('inf')):
     start_idx = np.where(diff == 1)[0]
     end_idx = np.where(diff == -1)[0]
     durations = end_idx - start_idx
+    
     if len(durations) == 0:
-        return cap
+        return 0
     else:
-        return 1 / np.mean(durations)
+        return np.mean(durations)
+    #if len(durations) == 0:
+    #    return cap
+    #else:
+    #    return 1 / np.mean(durations)
     
 def vulnerability(x, threshold, failure_operator="<"):
     """
